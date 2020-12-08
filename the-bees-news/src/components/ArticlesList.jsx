@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { getArticles } from '../api'
+import ArticlesTable from './MaterialTable'
 
 class ArticlesList extends Component {
 
@@ -30,17 +31,15 @@ class ArticlesList extends Component {
 
     render() {
         const { articles } = this.state
-        return (
-            <main>
-                <ul>
-                    {articles.map(article => (
-                        <li key={article.article_id}>
-                            <h2>{article.title}</h2>
-                        </li>
-                    ))}
-                </ul>
-            </main>
-        );
+        const columns = [
+            { title: "Title", field: 'title' },
+            { title: "Author", field: 'author' },
+            { title: "Comment Count", field: 'comment_count', type: 'numeric' },
+            { title: "Votes", field: 'votes', type: 'numeric' }]
+        return <ArticlesTable
+            className='articles_table'
+            data={articles}
+            columns={columns} />
     }
 }
 

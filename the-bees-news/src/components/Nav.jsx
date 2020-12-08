@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { getTopics } from '../api';
 import { Link } from '@reach/router';
-
+import Button from '@material-ui/core/Button';
 class Nav extends Component {
 
     state = {
@@ -17,12 +17,21 @@ class Nav extends Component {
         const { topics } = this.state;
         return (
             <nav>
+                <Link
+                    className='nav-links'
+                    to={'/'}>
+                    <Button variant="contained" color="secondary">
+                        <p>All topics</p>
+                    </Button>
+                </Link>
                 {topics.map(topic => (
                     <Link
                         className='nav-links'
                         key={topic.slug}
                         to={`/topics/${topic.slug}`}>
-                        {topic.slug}
+                        <Button variant="contained" color="secondary">
+                            <p>{topic.slug}</p>
+                        </Button>
                     </Link>
                 ))}
             </nav>
@@ -31,3 +40,9 @@ class Nav extends Component {
 }
 
 export default Nav;
+
+// <Link to="/dashboard">
+//      <Button style={myStyle}>
+//         <p>Click Me!</p>
+//      </Button>
+//  </Link>

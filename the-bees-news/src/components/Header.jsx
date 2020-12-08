@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from '@reach/router';
-
+import Button from '@material-ui/core/Button';
 
 const Header = () => {
     return (
-        <header>
-            <Link to='/'><h1>Northcoder News</h1></Link>
+        <header className='title'>
+            <h1>NorthcoderNews</h1>
         </header>
     );
 };
