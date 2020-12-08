@@ -1,10 +1,10 @@
 .App {
   text-align: center;
   font-size: large;
-  background-image: url('./images/newspaper-1173913-1280x960.jpg');
+  background-image: url('./images/11b6769c8f2ea91b25fa0bb10bcaf4ab.jpg');
   display:grid;
   grid-template-columns: 100px auto;
-  grid-template-rows: 120px 100px auto;
+  grid-template-rows: min-content auto auto;
   grid-template-areas:
   'header header'
   'sidebar nav'
@@ -12,9 +12,12 @@
 }
 
 nav {
-  background-color: white;
+  background-image: url('./images/11b6769c8f2ea91b25fa0bb10bcaf4ab.jpg');
+  /* background-color: white; */
   padding-top: 1rem;
+  padding-bottom: 1rem;
   grid-area: nav;
+  border-bottom: thin;
 }
 
 .nav-links{
@@ -27,18 +30,19 @@ header{
 }
 
 .title{
-  background-color: #ffce0059;
   color: white;
+  font-family: 'Courier New', Courier, monospace;
   width: -moz-fit-content;
   width: stretch;
   align-self: center;
   justify-self: center;
-  margin: 30px;
-  padding: 0px;
 }
 
 .main_router{
   grid-area: router;
+  background-color: white;
+  min-height: 900px;
+
 }
 
 .articles_table{
