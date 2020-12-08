@@ -20,7 +20,7 @@ class Nav extends Component {
                 <Link
                     className='nav-links'
                     to={'/'}>
-                    <Button variant="contained" color="secondary">
+                    <Button variant="contained" color='primary'>
                         <p>All topics</p>
                     </Button>
                 </Link>
@@ -29,7 +29,7 @@ class Nav extends Component {
                         className='nav-links'
                         key={topic.slug}
                         to={`/topics/${topic.slug}`}>
-                        <Button variant="contained" color="secondary">
+                        <Button variant="contained" color='primary'>
                             <p>{topic.slug}</p>
                         </Button>
                     </Link>

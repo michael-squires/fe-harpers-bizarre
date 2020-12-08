@@ -53,7 +53,11 @@ class ArticlesList extends Component {
         const columns = [
             { title: "Title", field: 'title' },
             { title: "Author", field: 'author' },
-            { title: "Comment Count", field: 'comment_count', type: 'numeric' },
+            { title: "Created At", field: 'created_at' },
+            {
+                title: "Comment Count", field: 'comment_count', type: 'numeric',
+                render: rowData => <div style={{ maxWidth: "100px", paddingLeft: "10px" }}> {rowData.comment_count} </div>
+            },
             { title: "Votes", field: 'votes', type: 'numeric' }]
         return (
             isLoading ? <div><span>🤓📖</span>Reading up!</div> :
@@ -65,5 +69,7 @@ class ArticlesList extends Component {
         )
     }
 }
+
+//(<div style={{minWidth: data.field === "columnToChange" ? "250px" : null, paddingLeft: "10px"}}>  {rowData[data.field]}  </div>)
 
 export default ArticlesList;

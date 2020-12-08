@@ -40,6 +40,7 @@ header{
 
 .main_router{
   grid-area: router;
+  background-image: url('./images/11b6769c8f2ea91b25fa0bb10bcaf4ab.jpg');
   background-color: white;
   min-height: 900px;
 
