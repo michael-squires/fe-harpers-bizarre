@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { getArticles } from '../api'
-import ArticlesTable from './MaterialTable'
+import { getArticles, upVoteArticle } from '../api'
+import Loading from './Loading';
+import ArticlesTable from './ArticlesTable'
+
 
 class ArticlesList extends Component {
 
@@ -9,6 +11,25 @@ class ArticlesList extends Component {
         isError: false,
         errorMessage: '',
         isLoading: true,
+    }
+
+    handleClick = (id) => {
+        upVoteArticle(id)
+            .then(() => {
+                this.setState(currentState => {
+                    const updatedArticles = currentState.articles.map(article => {
+                        const copyArticle = { ...article }
+                        if (copyArticle.article_id === id) {
+                            copyArticle.votes++
+                            copyArticle.hasBeenUpvoted = true
+                            console.log('copy', copyArticle)
+                        }
+                        return copyArticle
+                    })
+                    return { articles: updatedArticles }
+                })
+            })
+
     }
 
     componentDidMount() {
@@ -26,7 +47,6 @@ class ArticlesList extends Component {
                 })
             })
     }
-
 
     componentDidUpdate(prevProps) {
         console.log('ArticlesList prevProps, this.props:', prevProps.topic_slug, this.props.topic_slug)
@@ -51,21 +71,22 @@ class ArticlesList extends Component {
     render() {
         const { articles, isLoading, isError, errorMessage } = this.state
         const columns = [
-            { title: "Title", field: 'title' },
-            { title: "Author", field: 'author' },
-            { title: "Created At", field: 'created_at' },
+            { title: "Title", field: 'title', filtering: false },
+            { title: "Author", field: 'author', filterPlaceholder: 'username' },
+            { title: "Created At", field: 'created_at', filtering: false },
             {
-                title: "Comment Count", field: 'comment_count', type: 'numeric',
-                render: rowData => <div style={{ maxWidth: "100px", paddingLeft: "10px" }}> {rowData.comment_count} </div>
+                title: "Comment Count", field: 'comment_count', type: 'numeric', filtering: false,
+                render: rowData => <div style={{}}> {rowData.comment_count} </div>
             },
-            { title: "Votes", field: 'votes', type: 'numeric' }]
+            { title: "Votes", field: 'votes', type: 'numeric', filtering: false }]
         return (
-            isLoading ? <div><span>🤓📖</span>Reading up!</div> :
+            isLoading ? <Loading /> :
                 isError ? <h1>{errorMessage}</h1> :
                     <ArticlesTable
                         className='articles_table'
                         data={articles}
-                        columns={columns} />
+                        columns={columns}
+                        handleClick={this.handleClick} />
         )
     }
 }

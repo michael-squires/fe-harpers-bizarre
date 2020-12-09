@@ -14,6 +14,7 @@ function App() {
         <ArticlesList path='/' />
         <ArticlesList path='/topics/:topic_slug' />
         <Article path='/articles/:article_id' />
+        {/* <ErrorMessage default errorMessage='Page not found!'/> */}
       </Router>
     </div>
   );

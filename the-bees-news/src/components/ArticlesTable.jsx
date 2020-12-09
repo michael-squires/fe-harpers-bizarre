@@ -5,20 +5,32 @@ import RateReviewTwoToneIcon from '@material-ui/icons/RateReviewTwoTone';
 import FolderOpenTwoToneIcon from '@material-ui/icons/FolderOpenTwoTone'; import React from 'react';
 import OpenInNewTwoToneIcon from '@material-ui/icons/OpenInNewTwoTone';
 import MenuBookTwoToneIcon from '@material-ui/icons/MenuBookTwoTone';
+import ThumbUpTwoToneIcon from '@material-ui/icons/ThumbUpTwoTone';
 
 import Article from './Article';
+import Comments from './Comments';
 
 const ArticlesTable = (props) => {
+    const { handleClick } = props
     return (
         <div className='article_table'>
-            <MaterialTable color='primary'
-                title='Select any article to view'
+            <MaterialTable
+                title='List of Articles, sort by any column'
                 columns={props.columns}
                 data={props.data}
                 options={{
-                    paging: false,
-                    filtering: false,
+                    // paging: false,
+                    filtering: true,
+                    actionsColumnIndex: -1
                 }}
+                actions={[
+                    rowData => ({
+                        icon: ThumbUpTwoToneIcon,
+                        tooltip: 'Vote for this article!',
+                        onClick: (event, rowData) => handleClick(rowData.article_id),
+                        disabled: rowData.hasBeenUpvoted === true
+                    })
+                ]}
                 detailPanel={[
                     {
                         icon: MarkunreadMailboxTwoToneIcon,
@@ -33,7 +45,7 @@ const ArticlesTable = (props) => {
                         openIcon: FolderOpenTwoToneIcon,
                         tooltip: 'Open Comments',
                         render: rowData => {
-                            return <h1>{rowData.article_id} COMMENTS HERE!</h1>
+                            return <Comments article_id={rowData.article_id} />
                         }
                     },
                     {
@@ -44,7 +56,7 @@ const ArticlesTable = (props) => {
                             return (
                                 <div>
                                     <Article article_id={rowData.article_id} />
-                                    <h1>{rowData.article_id} COMMENTS HERE!</h1>)
+                                    return <Comments article_id={rowData.article_id} />
                                 </div>
                             )
                         }
