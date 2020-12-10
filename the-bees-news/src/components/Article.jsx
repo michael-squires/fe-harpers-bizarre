@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { getArticle } from '../api';
+import Loading from './Loading';
 
 class Article extends Component {
 
@@ -29,7 +30,7 @@ class Article extends Component {
     render() {
         const { article, isLoading, isError, errorMessage } = this.state
         return (
-            isLoading ? <div><span>🤓📖</span>Reading up!</div> :
+            isLoading ? <Loading /> :
                 isError ? <h1>{errorMessage}</h1> :
                     <div className='article_body'>
                         <p>{article.body}</p>

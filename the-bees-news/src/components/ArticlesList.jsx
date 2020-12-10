@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getArticles, upVoteArticle } from '../api'
+import { getArticles, amendVotesArticle } from '../api'
 import Loading from './Loading';
 import ArticlesTable from './ArticlesTable'
 
@@ -13,23 +13,29 @@ class ArticlesList extends Component {
         isLoading: true,
     }
 
-    handleClick = (id) => {
-        upVoteArticle(id)
+    handleClick = (id, voteNum) => {
+        amendVotesArticle(id, voteNum)
             .then(() => {
                 this.setState(currentState => {
                     const updatedArticles = currentState.articles.map(article => {
                         const copyArticle = { ...article }
                         if (copyArticle.article_id === id) {
-                            copyArticle.votes++
-                            copyArticle.hasBeenUpvoted = true
-                            console.log('copy', copyArticle)
+                            copyArticle.votes += voteNum
+                            copyArticle.hasHadVote = true
                         }
                         return copyArticle
                     })
                     return { articles: updatedArticles }
                 })
             })
-
+            .catch(err => {
+                const { response } = err
+                this.setState({
+                    isLoading: false,
+                    isError: true,
+                    errorMessage: `no articles found ${response.status}! ${response.statusText}`
+                })
+            })
     }
 
     componentDidMount() {
@@ -90,7 +96,5 @@ class ArticlesList extends Component {
         )
     }
 }
-
-//(<div style={{minWidth: data.field === "columnToChange" ? "250px" : null, paddingLeft: "10px"}}>  {rowData[data.field]}  </div>)
 
 export default ArticlesList;

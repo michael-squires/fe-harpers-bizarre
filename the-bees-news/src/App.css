@@ -51,16 +51,11 @@ header{
 }
 
 .article_body{
-  background-color: #E1E6E4;
+  /* background-color: #E1E6E4; */
   color: #232E49;
+  font-weight: bolder;
 }
 
 #title_link{
   background-color: white;
-}
-
-.article_comment_column {
-  color: "blue";
-  max-width: "100px"; 
-  padding-left: "10px";
 }
