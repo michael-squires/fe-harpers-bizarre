@@ -34,30 +34,29 @@ const CommentsTable = (props) => {
                     icon: ThumbUpTwoToneIcon,
                     tooltip: 'upVote this comment!',
                     onClick: (event, rowData) => {
-                        handleClick(rowData.comment_id, 1)
-                        setData(currentData => {
-                            const newData = currentData.map(comment => {
-                                const copyComment = { ...comment }
-                                if (copyComment.comment_id === rowData.comment_id) {
-                                    copyComment.votes++
-                                    copyComment.hasHadVote = true
-                                }
-                                return copyComment
-                            })
-                            return newData
-                        })
+                        const index = rowData.tableData.id;
+                        const newData = [...data]
+                        newData[index].votes++
+                        newData[index].hasHadVote = true
+                        setData([...newData])
+                        handleClick(rowData.comment_id, index, 1)
                     },
-                    disabled: rowData.hasHadVote === true
+                    disabled: rowData.hasHadVote === true ||
+                        rowData.author === 'grumpy19'
                 }),
                 rowData => ({
                     icon: ThumbDownTwoToneIcon,
                     tooltip: 'downVote this comment!',
                     onClick: (event, rowData) => {
-                        handleClick(rowData.comment_id, -1)
-                        rowData.vote--
-                        setData([...data, rowData])
+                        const index = rowData.tableData.id;
+                        const newData = [...data]
+                        newData[index].votes--
+                        newData[index].hasHadVote = true
+                        setData([...newData])
+                        handleClick(rowData.comment_id, index, -1)
                     },
-                    disabled: rowData.hasHadVote === true
+                    disabled: rowData.hasHadVote === true ||
+                        rowData.author === 'grumpy19'
                 }),
             ]}
             editable={{
@@ -72,13 +71,11 @@ const CommentsTable = (props) => {
                     }),
                 onRowDelete: oldData =>
                     new Promise((resolve, reject) => {
-                        setTimeout(() => {
-                            const dataDelete = [...data];
-                            const index = oldData.tableData.id;
-                            dataDelete.splice(index, 1);
-                            setData([...dataDelete]);
-                            resolve()
-                        }, 1000)
+                        const dataDelete = [...data];
+                        const index = oldData.tableData.id;
+                        dataDelete.splice(index, 1);
+                        setData([...dataDelete]);
+                        resolve()
                     }),
             }}
         />

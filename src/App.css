@@ -1,6 +1,6 @@
-@media only screen and (min-width: 425px){
+@media only screen and (max-width: 425px){
 html{
-  font-size: 12%;
+  font-size: 150%;
 }
 }
 
@@ -34,6 +34,10 @@ header{
   align-items: center;
 }
 
+h1{
+  margin: unset
+}
+
 .title{
   color: white;
   font-family: 'Courier New', Courier, monospace;
@@ -48,7 +52,9 @@ header{
   background-image: url('./images/11b6769c8f2ea91b25fa0bb10bcaf4ab.jpg');
   background-color: white;
   min-height: 900px;
-
+  margin-left: 20px;
+  margin-right: 20px;
+margin-bottom: 10px
 }
 
 .articles_table{

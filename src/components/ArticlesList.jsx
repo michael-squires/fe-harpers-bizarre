@@ -13,22 +13,19 @@ class ArticlesList extends Component {
         isLoading: true,
     }
 
-    handleClick = (id, voteNum) => {
+    handleClick = (id, index, voteNum) => {
+        const { articles } = this.state
+        const newArticles = [...articles]
+        newArticles[index].votes += voteNum
+        newArticles[index].hasHadVote = true
+        this.setState({ articles: newArticles })
         amendVotesArticle(id, voteNum)
-            .then(() => {
-                this.setState(currentState => {
-                    const updatedArticles = currentState.articles.map(article => {
-                        const copyArticle = { ...article }
-                        if (copyArticle.article_id === id) {
-                            copyArticle.votes += voteNum
-                            copyArticle.hasHadVote = true
-                        }
-                        return copyArticle
-                    })
-                    return { articles: updatedArticles }
-                })
-            })
             .catch(err => {
+                const { articles } = this.state
+                const newArticles = [...articles]
+                newArticles[index].votes -= voteNum
+                newArticles[index].hasHadVote = false
+                this.setState({ articles: newArticles })
                 const { response } = err
                 this.setState({
                     isLoading: false,

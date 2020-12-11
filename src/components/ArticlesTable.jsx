@@ -13,7 +13,7 @@ const ArticlesTable = (props) => {
     return (
         <div className='article_table'>
             <MaterialTable
-                title='sort by any column ↕'
+                title='user: grumpy19'
                 columns={props.columns}
                 data={props.data}
                 options={{
@@ -25,14 +25,22 @@ const ArticlesTable = (props) => {
                     rowData => ({
                         icon: ThumbUpTwoToneIcon,
                         tooltip: 'upVote this article!',
-                        onClick: (event, rowData) => handleClick(rowData.article_id, 1),
-                        disabled: rowData.hasHadVote === true
+                        onClick: (event, rowData) => {
+                            const index = rowData.tableData.id;
+                            handleClick(rowData.article_id, index, 1)
+                        },
+                        disabled: rowData.hasHadVote === true ||
+                            rowData.author === 'grumpy19'
                     }),
                     rowData => ({
                         icon: ThumbDownTwoToneIcon,
                         tooltip: 'downVote this article!',
-                        onClick: (event, rowData) => handleClick(rowData.article_id, -1),
-                        disabled: rowData.hasHadVote === true
+                        onClick: (event, rowData) => {
+                            const index = rowData.tableData.id;
+                            handleClick(rowData.article_id, index, -1)
+                        },
+                        disabled: rowData.hasHadVote === true ||
+                            rowData.author === 'grumpy19'
                     }),
                 ]}
                 detailPanel={[

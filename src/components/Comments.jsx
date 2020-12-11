@@ -12,20 +12,20 @@ class Comments extends Component {
         isLoading: true,
     }
 
-    handleClick = (id, voteNum) => {
+    handleClick = (id, index, voteNum) => {
         console.log('comment handle click', id, voteNum)
         amendVotesComment(id, voteNum)
-            .then(() => {
-                this.setState(currentState => {
-                    const updatedComments = currentState.comments.map(comment => {
-                        const copyComment = { ...comment }
-                        if (copyComment.comment_id === id) {
-                            copyComment.votes += voteNum
-                            copyComment.hasHadVote = true
-                        }
-                        return copyComment
-                    })
-                    return { comments: updatedComments }
+            .catch(err => {
+                const { response } = err
+                const { comments } = this.state
+                const newComments = [...comments]
+                newComments[index].votes -= voteNum
+                newComments[index].hasHadVote = false
+                this.setState({
+                    comments: newComments,
+                    isLoading: false,
+                    isError: true,
+                    errorMessage: `Vote could not be cast! ${response.status}! ${response.statusText}`
                 })
             })
     }
@@ -75,7 +75,7 @@ class Comments extends Component {
     render() {
         console.log('rendering COMMENTS')
         const { comments, isLoading, isError, errorMessage } = this.state
-        const sortedComments = this.sortCommentsByCreatedAt(comments)
+        const sortedComments = comments
         const columns = [
             { title: "Comment", field: 'body', filtering: false, editable: 'always' },
             { title: "Author", field: 'author', filterPlaceholder: 'username', editable: 'never', initialEditValue: 'grumpy19' },
