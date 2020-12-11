@@ -33,7 +33,20 @@ const CommentsTable = (props) => {
                 rowData => ({
                     icon: ThumbUpTwoToneIcon,
                     tooltip: 'upVote this comment!',
-                    onClick: (event, rowData) => handleClick(rowData.comment_id, 1),
+                    onClick: (event, rowData) => {
+                        handleClick(rowData.comment_id, 1)
+                        setData(currentData => {
+                            const newData = currentData.map(comment => {
+                                const copyComment = { ...comment }
+                                if (copyComment.comment_id === rowData.comment_id) {
+                                    copyComment.votes++
+                                    copyComment.hasHadVote = true
+                                }
+                                return copyComment
+                            })
+                            return newData
+                        })
+                    },
                     disabled: rowData.hasHadVote === true
                 }),
                 rowData => ({
@@ -41,7 +54,8 @@ const CommentsTable = (props) => {
                     tooltip: 'downVote this comment!',
                     onClick: (event, rowData) => {
                         handleClick(rowData.comment_id, -1)
-                        setData([rowData, ...data])
+                        rowData.vote--
+                        setData([...data, rowData])
                     },
                     disabled: rowData.hasHadVote === true
                 }),
@@ -50,12 +64,11 @@ const CommentsTable = (props) => {
                 isDeletable: rowData => rowData.author === 'grumpy19',
                 onRowAdd: newData =>
                     new Promise((resolve, reject) => {
-                        setTimeout(() => {
-                            submitNewComment(newData)
-                            console.log(newData)
-                            setData([newData, ...data]);
+                        submitNewComment(newData).then(newComment => {
+                            console.log(newComment)
+                            setData([newComment, ...data]);
                             resolve();
-                        }, 1000)
+                        })
                     }),
                 onRowDelete: oldData =>
                     new Promise((resolve, reject) => {

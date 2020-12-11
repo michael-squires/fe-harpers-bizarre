@@ -1,21 +1,26 @@
+@media only screen and (min-width: 425px){
+html{
+  font-size: 12%;
+}
+}
+
 .App {
   text-align: center;
   font-size: large;
   background-image: url('./images/11b6769c8f2ea91b25fa0bb10bcaf4ab.jpg');
   display:grid;
-  grid-template-columns: 100px auto;
-  grid-template-rows: min-content auto auto;
+  grid-template-rows: min-content min-content auto;
   grid-template-areas:
-  'header header'
-  'sidebar nav'
-  'sidebar router';
+  'header'
+  'nav'
+  'router';
 }
 
 nav {
   background-image: url('./images/11b6769c8f2ea91b25fa0bb10bcaf4ab.jpg');
   /* background-color: white; */
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
   grid-area: nav;
   border-bottom: thin;
 }
@@ -58,4 +63,12 @@ header{
 
 #title_link{
   background-color: white;
+}
+
+#username {
+  color: white;
+  font-style: italic;
+  background-color:#232E49;
+  width: fit-content;
+  float: center;
 }

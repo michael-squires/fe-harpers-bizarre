@@ -55,7 +55,6 @@ class ArticlesList extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        console.log('ArticlesList prevProps, this.props:', prevProps.topic_slug, this.props.topic_slug)
         const changeOfTopic = prevProps.topic_slug !== this.props.topic_slug
         if (changeOfTopic) {
             getArticles(this.props.topic_slug)
@@ -88,11 +87,13 @@ class ArticlesList extends Component {
         return (
             isLoading ? <Loading /> :
                 isError ? <h1>{errorMessage}</h1> :
-                    <ArticlesTable
-                        className='articles_table'
-                        data={articles}
-                        columns={columns}
-                        handleClick={this.handleClick} />
+                    <>
+                        <ArticlesTable
+                            className='articles_table'
+                            data={articles}
+                            columns={columns}
+                            handleClick={this.handleClick} />
+                    </>
         )
     }
 }

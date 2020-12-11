@@ -33,10 +33,10 @@ class Comments extends Component {
     submitNewComment = (commentData) => {
         const { article_id } = this.props
         commentData.username = commentData.author
-        postComment(article_id, commentData)
+        return postComment(article_id, commentData)
             .then(comment => {
-                this.setState(currentState => ({ comments: [comment, ...currentState.comments] })
-                )
+                this.setState(currentState => ({ comments: [comment, ...currentState.comments] }))
+                return comment
             })
             .catch(err => {
                 const { response } = err
@@ -73,6 +73,7 @@ class Comments extends Component {
 
 
     render() {
+        console.log('rendering COMMENTS')
         const { comments, isLoading, isError, errorMessage } = this.state
         const sortedComments = this.sortCommentsByCreatedAt(comments)
         const columns = [
