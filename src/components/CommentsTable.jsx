@@ -6,16 +6,11 @@ import ThumbDownTwoToneIcon from '@material-ui/icons/ThumbDownAltTwoTone';
 const { useState } = React;
 
 const CommentsTable = (props) => {
-    const { submitNewComment } = props
-    const [columns] = useState([
-        ...props.columns
-    ]);
+    const { columns, submitNewComment, handleClick, handleDelete } = props
 
     const [data, setData] = useState([
         ...props.data,
     ])
-
-    const { handleClick } = props
 
     return (
         <MaterialTable
@@ -64,17 +59,19 @@ const CommentsTable = (props) => {
                 onRowAdd: newData =>
                     new Promise((resolve, reject) => {
                         submitNewComment(newData).then(newComment => {
-                            console.log(newComment)
                             setData([newComment, ...data]);
                             resolve();
                         })
                     }),
-                onRowDelete: oldData =>
+                onRowDelete: (oldData) =>
                     new Promise((resolve, reject) => {
                         const dataDelete = [...data];
                         const index = oldData.tableData.id;
-                        dataDelete.splice(index, 1);
+                        const deleted = dataDelete.splice(index, 1);
                         setData([...dataDelete]);
+                        console.log(deleted)
+                        const [{ comment_id }] = deleted
+                        handleDelete(comment_id)
                         resolve()
                     }),
             }}

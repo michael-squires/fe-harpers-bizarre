@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Loading from './Loading';
-import { getComments, postComment, amendVotesComment } from '../api'
+import { getComments, postComment, amendVotesComment, deleteComment } from '../api'
+
 import CommentsTable from './CommentsTable';
 
 class Comments extends Component {
@@ -48,6 +49,18 @@ class Comments extends Component {
             })
     }
 
+    handleDelete = (id) => {
+        deleteComment(id)
+            .catch(err => {
+                const { response } = err
+                this.setState({
+                    isLoading: false,
+                    isError: true,
+                    errorMessage: `Comment could not be deleted! ${response.status}! ${response.statusText}`
+                })
+            })
+    }
+
     componentDidMount() {
         const { article_id } = this.props
         getComments(article_id)
@@ -89,7 +102,8 @@ class Comments extends Component {
                         data={sortedComments}
                         columns={columns}
                         handleClick={this.handleClick}
-                        submitNewComment={this.submitNewComment} />
+                        submitNewComment={this.submitNewComment}
+                        handleDelete={this.handleDelete} />
         )
     }
 }
