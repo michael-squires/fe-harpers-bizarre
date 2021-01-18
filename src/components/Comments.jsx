@@ -63,8 +63,10 @@ class Comments extends Component {
 
     componentDidMount() {
         const { article_id } = this.props
+        console.log('article_id', article_id)
         getComments(article_id)
             .then(comments => {
+                console.log('comments', comments)
                 this.setState({ comments, isLoading: false })
             })
             .catch(err => {
@@ -77,18 +79,9 @@ class Comments extends Component {
             })
     }
 
-    sortCommentsByCreatedAt = (comments => {
-        return comments.sort((a, b) => {
-            let keyA = new Date(a.created_at), keyB = new Date(b.created_at);
-            return (keyA > keyB) ? -1 : 1
-        })
-    })
-
-
     render() {
         console.log('rendering COMMENTS')
         const { comments, isLoading, isError, errorMessage } = this.state
-        const sortedComments = comments
         const columns = [
             { title: "Comment", field: 'body', filtering: false, editable: 'always' },
             { title: "Author", field: 'author', filterPlaceholder: 'username', editable: 'never', initialEditValue: 'grumpy19' },
@@ -99,7 +92,7 @@ class Comments extends Component {
                 isError ? <h1>{errorMessage}</h1> :
                     <CommentsTable
                         className='comments_table'
-                        data={sortedComments}
+                        data={comments}
                         columns={columns}
                         handleClick={this.handleClick}
                         submitNewComment={this.submitNewComment}

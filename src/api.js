@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+import { formatDate } from './utils';
+
 const ncNewsApi = axios.create({
-    baseURL: 'https://the-bees-news.herokuapp.com/api',
+    baseURL: 'https://harpers-bizarre.herokuapp.com/api',
 });
 
 export const getTopics = () => {
@@ -16,7 +18,9 @@ export const getArticles = (topic) => {
             params: { topic }
         })
         .then(({ data }) => {
-            return data.articles
+            const { articles } = data;
+            const dateFormattedArticles = articles.map(article => formatDate(article))
+            return dateFormattedArticles
         });
 };
 
@@ -24,13 +28,11 @@ export const getArticle = (article_id) => {
     return ncNewsApi
         .get(`/articles/${article_id}`)
         .then(({ data }) => {
-            const { articles } = data
-            for (const article of articles) {
-                article.created_at = `${article.created_at.slice(10)} ${article.created_at.slice(12, 24)}`
-                //"created_at":"2018-05-30T15:59:13.341Z"
-            }
-        });
-}
+            const { article } = data;
+            const dateFormattedArticle = formatDate(article)
+            return dateFormattedArticle
+        })
+};
 
 export const amendVotesArticle = (article_id, voteNum) => {
     return ncNewsApi
@@ -49,10 +51,13 @@ export const amendVotesComment = (comment_id, voteNum) => {
 }
 
 export const getComments = (article_id) => {
+    console.log('path', `/articles/${article_id}/comments`)
     return ncNewsApi
         .get(`/articles/${article_id}/comments`)
         .then(({ data }) => {
-            return data.comments
+            const { comments } = data;
+            const dateFormattedComments = comments.map(comment => formatDate(comment))
+            return dateFormattedComments
         });
 };
 
