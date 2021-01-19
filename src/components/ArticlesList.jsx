@@ -74,12 +74,12 @@ class ArticlesList extends Component {
         const { articles, isLoading, isError, errorMessage } = this.state
         const columns = [
             { title: "Title", field: 'title', filtering: false },
-            { title: "Author", field: 'author', filterPlaceholder: 'username' },
-            { title: "Created At", field: 'created_at', filtering: false },
-            {
-                title: "Comment Count", field: 'comment_count', type: 'numeric', filtering: false,
-                render: rowData => <div style={{}}> {rowData.comment_count} </div>
-            },
+            // { title: "Author", field: 'author', filterPlaceholder: 'username' },
+            // { title: "Created At", field: 'created_at', filtering: false },
+            // {
+            //     title: "Comment Count", field: 'comment_count', type: 'numeric', filtering: false,
+            //     render: rowData => <div style={{}}> {rowData.comment_count} </div>
+            // },
             { title: "Votes", field: 'votes', type: 'numeric', filtering: false }]
         return (
             isLoading ? <Loading /> :

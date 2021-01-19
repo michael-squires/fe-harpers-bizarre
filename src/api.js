@@ -28,8 +28,7 @@ export const getArticle = (article_id) => {
     return ncNewsApi
         .get(`/articles/${article_id}`)
         .then(({ data }) => {
-            const { article } = data;
-            const dateFormattedArticle = formatDate(article)
+            const dateFormattedArticle = formatDate(data)
             return dateFormattedArticle
         })
 };
